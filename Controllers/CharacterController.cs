@@ -14,7 +14,7 @@ namespace Dotnet5_RPG.Controllers
         private static List<Character> characters = new List<Character> 
         {
             new Character(),
-            new Character { Name = "Sam"}
+            new Character { Id = 1, Name = "Sam"}
         }; 
 
         [HttpGet("GetAll")]
@@ -24,11 +24,11 @@ namespace Dotnet5_RPG.Controllers
             return Ok(characters);
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         
-        public ActionResult<Character> GetSingle()
+        public ActionResult<Character> GetSingle(int id)
         {
-            return Ok(characters[0]);
+            return Ok(characters.FirstOrDefault(c => c.Id == id));
         }
     }
 
