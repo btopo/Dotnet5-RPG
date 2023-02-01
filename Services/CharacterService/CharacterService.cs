@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dotnet5_RPG.Controllers.Models;
+using Dotnet5_RPG.Models;
 
 namespace Dotnet5_RPG.Services.CharacterService
 {
@@ -14,20 +15,26 @@ namespace Dotnet5_RPG.Services.CharacterService
             new Character { Id = 1, Name = "Sam"}
         }; 
         
-        public async Task<List<Character>> AddCharacter(Character newCharacter)
+        public async Task<ServiceResponse<List<Character>>> AddCharacter(Character newCharacter)
         {
+            var serviceRespsone = new ServiceResponse<List<Character>>();
             characters.Add(newCharacter);
-            return characters;
+            serviceRespsone.Data = characters;
+            return serviceRespsone;
         }
 
-        public async Task<List<Character>> GetAllCharacters()
+        public async Task<ServiceResponse<List<Character>>> GetAllCharacters()
         {
-            return characters;
+            var serviceRespsone = new ServiceResponse<List<Character>>();
+            serviceRespsone.Data = characters;
+            return serviceRespsone;
         }
 
-        public async Task<Character> GetCharacterById(int id)
+        public async Task<ServiceResponse<Character>> GetCharacterById(int id)
         {
-            return characters.FirstOrDefault(c => c.Id == id);
+            var serviceRespsone = new ServiceResponse<Character>();
+            serviceRespsone.Data = characters.FirstOrDefault(c => c.Id == id);
+            return serviceRespsone;
         }
     }
 }
