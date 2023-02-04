@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dotnet5_RPG.Controllers.Models;
+using Dotnet5_RPG.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Dotnet5_RPG.Data
@@ -15,5 +16,6 @@ namespace Dotnet5_RPG.Data
         }
 
         public DbSet<Character> Characters { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
