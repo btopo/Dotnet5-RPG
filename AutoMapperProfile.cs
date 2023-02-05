@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Dotnet5_RPG.Controllers.Models;
 using Dotnet5_RPG.Dtos.Character;
+using Dotnet5_RPG.Dtos.Weapon;
+using Dotnet5_RPG.Migrations;
 
 namespace Dotnet5_RPG
 {
@@ -14,6 +16,7 @@ namespace Dotnet5_RPG
         {
             CreateMap<Character, GetCharacterDto>();  // maping the Character to GetCharacterDto
             CreateMap<AddCharacterDto, Character>();  // maping the AddCharacter to Character
+            CreateMap<Weapon, GetWeaponDto>();
         }
     }
 }   
