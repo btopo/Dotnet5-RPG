@@ -91,25 +91,35 @@ namespace Dotnet5_RPG.Services.CharacterService
         public async Task<ServiceResponse<GetCharacterDto>> UpdateCharacter(UpdateCharacterDto updatedCharacter)
         {
             var serviceResponse = new ServiceResponse<GetCharacterDto>();
-            try{
-            Character character = await _context.Characters.FirstOrDefaultAsync(c => c.Id == updatedCharacter.Id);
+            try
+            {
+                Character character = await _context.Characters
+                    .Include(c => c.User)
+                    .FirstOrDefaultAsync(c => c.Id == updatedCharacter.Id);
+                if(character.User.Id == GetUserId())
+                {
+                    character.Name = updatedCharacter.Name;  // manually updating only these properties so other stats can't be updated like # of fights
+                    character.HitPoints = updatedCharacter.HitPoints;
+                    character.Strength = updatedCharacter.Strength;
+                    character.Defense = updatedCharacter.Defense;
+                    character.Intelligence = updatedCharacter.Intelligence;
+                    character.Class = updatedCharacter.Class;
 
-            character.Name = updatedCharacter.Name;  // manually updating only these properties so other stats can't be updated like # of fights
-            character.HitPoints = updatedCharacter.HitPoints;
-            character.Strength = updatedCharacter.Strength;
-            character.Defense = updatedCharacter.Defense;
-            character.Intelligence = updatedCharacter.Intelligence;
-            character.Class = updatedCharacter.Class;
+                    await _context.SaveChangesAsync();
 
-            await _context.SaveChangesAsync();
-
-            serviceResponse.Data = _mapper.Map<GetCharacterDto>(character);
-               }
-               catch(Exception ex)
-               {
-                  serviceResponse.Success = false;
-                  serviceResponse.Message = ex.Message;
-               }
+                    serviceResponse.Data = _mapper.Map<GetCharacterDto>(character);
+                }
+                else
+                {
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = "Character not found.";
+                }
+            }
+            catch(Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
             return serviceResponse;
         }
     }
