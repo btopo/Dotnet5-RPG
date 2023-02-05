@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dotnet5_RPG.Data;
 using Dotnet5_RPG.Services.CharacterService;
+using Dotnet5_RPG.Services.CharacterService.WeaponService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -63,6 +64,7 @@ namespace Dotnet5_RPG
                     };
                 });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); //    registering the HttpContextAccesor
+            services.AddScoped<IWeaponService, WeaponService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
