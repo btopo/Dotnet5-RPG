@@ -51,10 +51,10 @@ namespace Dotnet5_RPG.Services.CharacterService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
+        public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters(int userId)
         {
             var serviceRespsone = new ServiceResponse<List<GetCharacterDto>>();
-            var dbCharacters = await _context.Characters.ToListAsync(); // gets all characters from the database table
+            var dbCharacters = await _context.Characters.Where(c => c.User.Id == userId).ToListAsync(); // gets all characters from the database table
             serviceRespsone.Data = dbCharacters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
             return serviceRespsone;
         }
