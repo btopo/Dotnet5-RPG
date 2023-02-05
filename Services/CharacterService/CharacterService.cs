@@ -32,10 +32,14 @@ namespace Dotnet5_RPG.Services.CharacterService
         public async Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
         {
             var serviceRespsone = new ServiceResponse<List<GetCharacterDto>>();
-            Character character = _mapper.Map<Character>(newCharacter);          
+            Character character = _mapper.Map<Character>(newCharacter);   
+            character.User = await _context.Users.FirstOrDefaultAsync(u => u.Id == GetUserId());
+
             _context.Characters.Add(character);
             await _context.SaveChangesAsync(); // writes the changes to the Db and generates the new Id for the character
-            serviceRespsone.Data = await _context.Characters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToListAsync();
+            serviceRespsone.Data = await _context.Characters
+                .Where(c => c.User.Id == GetUserId())
+                .Select(c => _mapper.Map<GetCharacterDto>(c)).ToListAsync();
             return serviceRespsone;
         }
 
