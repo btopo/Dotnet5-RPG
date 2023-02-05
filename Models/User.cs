@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dotnet5_RPG.Controllers.Models;
 
 namespace Dotnet5_RPG.Models
 {
@@ -11,5 +12,6 @@ namespace Dotnet5_RPG.Models
         public string Username { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
+        public List<Character> Characters { get; set; }
     }
 }
